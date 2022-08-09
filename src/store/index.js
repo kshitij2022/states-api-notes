@@ -49,6 +49,18 @@ export default new Vuex.Store({
             {title:"Data E",done:true,},
         ],
     },
+    getters:{
+        completedData(state){
+            return state.datas.filter(data => {
+                return data.done === true;
+            }).length;
+        },
+        pendingData(state){
+            return state.datas.filter(data=>{
+                return data.done === false;
+            }).length
+        }
+    },
     mutations:{
         new_Data(state,newData){
             state.datas.push({
@@ -58,7 +70,11 @@ export default new Vuex.Store({
         },
         DeleteDataItem(state,newData){
             let index = state.datas.indexOf(newData);
+            console.log(index);
             state.datas.splice(index,1);
+        },
+        Toggle_Data_Item(state,newData){
+            newData.done = !newData.done;
         }
 
     },
@@ -69,6 +85,9 @@ export default new Vuex.Store({
         },
         deleteData({commit},newData){
             commit('DeleteDataItem',newData)
+        },
+        toggleData({commit},newData){
+            commit('Toggle_Data_Item',newData)
         }
     }
 })
